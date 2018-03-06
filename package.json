@@ -1,11 +1,12 @@
 {
-  "name": "farm-animals",
+  "name": "phaser-starter",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "start": "node server/index.js"
+    "start": "node server/index.js",
+    "dev-start": "nodemon server/index.js"
   },
   "author": "",
   "license": "ISC",
