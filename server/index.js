@@ -1,5 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 
 // set port number
 const PORT  = process.env.PORT || 8000;
