@@ -1,4 +1,6 @@
-let PreloadState ={
+MyGame = MyGame || {};
+
+MyGame.PreloadState ={ 
   preload: function() {
     // add sprites for logos and loading bar
     this.loadingBar = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'loadingBar');

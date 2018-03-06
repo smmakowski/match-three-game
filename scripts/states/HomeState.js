@@ -1,4 +1,6 @@
-let HomeState = {
+MyGame = MyGame || {};
+
+MyGame.HomeState = {
   init: function(message) {
       // method to initialize state
       this.message = 'Click or Touch Text\nTo go to\nGame State';

@@ -1,4 +1,6 @@
-let BootState = {
+MyGame = MyGame || {};
+
+MyGame.BootState = {
   init: function() {
     this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
     this.scale.pageAlignVertically = true;

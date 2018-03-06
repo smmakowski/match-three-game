@@ -20,6 +20,8 @@ To install dependencies, run the following script in the terminal: `npm install`
 ------
 When working on this project, run the following command from the root directory: `npm run dev-start` to start Nodemon. Nodemon will monitor your application for changes and then restart the server.
 
+This repo saves the Phaser game as part of the `MyGame` object. If you want to change the `MyGame` object to a different name, go into `scripts/createGame.js`, `scripts/startGame.js`, `scripts/state/BootState.js`, `scripts/state/PreloadState.js`,  `scripts/state/HomeState.js`, and `scripts/state/GameState.js`, and change `MyGame` to whatever name you would like.
+
 ## Run tests
 ------
 This application is setup for unit testing with Mocha/Chai. Tests can be stored in the `test/` directory.
