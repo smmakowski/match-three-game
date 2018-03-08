@@ -93,7 +93,6 @@ class Board {
     return (rowDiff === 1 && colDiff === 0) || (rowDiff === 0 && colDiff === 1);
   }
 }
-/
 
 // NOTE: 'module.exports' is used for mocha testing. Internet browser will throw 'Uncaught ReferenceError'.
 // Please disregard this error, as it will not effect the actual game.

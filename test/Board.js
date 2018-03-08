@@ -4,9 +4,9 @@ let Board = require('../scripts/prefabs/Board.js').Board;
 
 
 describe('Board Object', () => {
-  let regularBoard = new Board(null, 7, 7, 7);
-  let tinyBoard= new Board(null, 3, 3, 7);
   describe('Board contructor', () => {
+    let regularBoard = new Board(null, 7, 7, 7);
+    let tinyBoard= new Board(null, 3, 3, 7);
     it('should produce a board instance state, rows, cols, and blockVariations properties', () => {
       expect(regularBoard.state).to.equal(null);
       expect(regularBoard.rows).to.be.a('number');
@@ -56,15 +56,63 @@ describe('Board Object', () => {
     });
   });
 
-  xdescribe('Board Population', () => {
+  describe('.populateGrid() and .populateReserveGrid()', () => {
+    let board = new Board(null, 7 , 7 , 7);
+    board.populateGrid();
+    board.populateReserveGrid();
+
+    it('.populateGrid() and .populateReserveGrid() should pupulate grid with numbers 1 through blockVariations for every slot', () => {
+      let gridPopulated = true;
+      let resGridPopulated = true;
+
+      for (let i = 0; i < board.rows; i++) {
+        for (let j = 0; j < board.cols; j++) {
+          if (!(board.grid[i][j] >= 1 && board.grid[i][j] <= board.blockVariations)) {
+            gridPopulated = false;
+          }
+        }
+      }
+
+      for (let i = 0; i < board.RESERVE_ROWS; i++) {
+        for (let j = 0; j < board.cols; j++) {
+          if (!(board.reserveGrid[i][j] >= 1 && board.reserveGrid[i][j] <= board.blockVariations)) {
+            resGridPopulated = false;
+          }
+        }
+      }
+
+      expect(gridPopulated).to.equal(true);
+      expect(resGridPopulated).to.equal(true);
+    });
 
   });
 
-  xdescribe('.isAdjacent()', () => {
+  describe('.isAdjacent()', () => {
+    it('should determine whether or not two positions on a grid are adjacent', () => {
+      const board = new Board(null, 7 , 7 , 7);
+      const pos1 = {row: 1, col: 1};
+      const pos2 = {row: 1, col: 2};
+      const pos3 = {row: 3, col: 4};
+      const pos4 = {row: 2, col: 2};
 
+      expect(board.isAdjacent(pos1, pos2)).to.equal(true);
+      expect(board.isAdjacent(pos1, pos3)).to.equal(false);
+      expect(board.isAdjacent(pos2, pos4)).to.equal(true);
+    });
   });
 
-  xdescribe('swapBlocks', () => {
+  describe('.swapBlocks()', () => {
+    it('should swap the values between two blocks', ()=> {
+      let board = new Board(null, 3, 3, 7);
+      board.populateGrid();
 
+      let targetVal = board.grid[0][1];
+      let sourceVal = board.grid[1][1];
+
+      board.swapBlocks({row: 1, col: 1}, {row: 0, col: 1});
+
+      expect(board.grid[0][1]).to.equal(sourceVal);
+      expect(board.grid[1][0]).to.equal(targetVal);
+    });
   });
 });
