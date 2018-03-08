@@ -86,11 +86,45 @@ class Board {
     this.grid[source.row][source.col] = this.grid[target.row][target.col]; // swap A
     this.grid[target.row][target.col] = temp; // swap B
   }
+
   isAdjacent(source, target) {
     const rowDiff = Math.abs(source.row - target.row);
     const colDiff = Math.abs(source.col - target.col);
 
     return (rowDiff === 1 && colDiff === 0) || (rowDiff === 0 && colDiff === 1);
+  }
+
+  isChained(block) { // postion for one block {rows: x, col: y}
+    let isChained = false;
+    let blockVar = this.grid[block.row][block.col];
+    let row = block.row;
+    let col = block.col;
+
+    // test left
+    if (blockVar === this.grid[row][col - 1] && blockVar === this.grid[row][col - 2]) {
+      isChained = true;
+    }
+
+    // test right
+    if (blockVar === this.grid[row][col + 1] && blockVar === this.grid[row][col + 2]) {
+      isChained = true;
+    }
+    // test up
+    if (this.grid[row - 1] && this.grid[row - 2]) {
+      if (blockVar === this.grid[row - 1][col] && blockVar === this.grid[row - 2][col]) {
+        isChained = true;
+      }
+    }
+
+    // test down
+    if (this.grid[row + 1] && this.grid[row + 2]) {
+      if (blockVar === this.grid[row + 1][col] && blockVar === this.grid[row + 2][col]) {
+        isChained = true;
+      }
+    }
+
+
+    return isChained;
   }
 }
 

@@ -112,7 +112,23 @@ describe('Board Object', () => {
       board.swapBlocks({row: 1, col: 1}, {row: 0, col: 1});
 
       expect(board.grid[0][1]).to.equal(sourceVal);
-      expect(board.grid[1][0]).to.equal(targetVal);
+      expect(board.grid[1][1]).to.equal(targetVal);
     });
+  });
+
+  describe('.isChained()', () => {
+    it('should return true if blocks are chained (3 in row/col) or false if not', () => {
+      const board = new Board(null, 3, 3, 3);
+      board.grid = [
+        [1, 1, 2],
+        [2, 2, 2],
+        [3, 1, 2]
+      ];
+
+      expect(board.isChained({row: 2, col: 2})).to.equal(true);
+      expect(board.isChained({row: 2, col: 0})).to.equal(false);
+      expect(board.isChained({row: 0, col: 1})).to.equal(false);
+      expect(board.isChained({row: 1, col: 0})).to.equal(true);
+    })
   });
 });
