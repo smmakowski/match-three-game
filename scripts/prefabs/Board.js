@@ -29,4 +29,39 @@ class Board {
     }
   }
 
+  populateGrid() {
+    let variation;
+    let board = this; // context
+    for (let i = 0; i < this.rows; i++) {
+      for (let j = 0; j < this.cols; j++) {
+        variation = Math.ceil(Math.random() * board.blockVariations);
+        this.grid[i][j] = variation;
+      }
+    }
+  }
+
+  populateReserveGrid() {
+    let variation;
+    let board = this;
+    for (let i = 0; i < this.RESERVE_ROWS; i++) {
+      for (let j = 0; j < this.cols; j++) {
+        variation = Math.ceil(Math.random() * board.blockVariation);
+        this.reserveGrid[i][j];
+      }
+    }
+  }
+
+  boardToString() {
+    let str = '';
+
+    for (let i = 0; i < this.rows; i++) {
+      for (let j = 0; j < this.cols - 1; j++) {
+       str += this.grid[i][j] + ' - ';
+      }
+
+      str += this.grid[i][this.cols - 1];
+      str += '\n';
+    }
+    console.log(str);
+  }
 }
