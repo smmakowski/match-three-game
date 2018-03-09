@@ -21,6 +21,10 @@ MyGame.GameState = {
     this.board.populateReserveGrid();
     console.log('Now in GameState!');
     this.renderBoard();
+
+    let block1 = this.blocks.children[10];
+    let block2 = this.blocks.children[11];
+    this.swapBlocks(block1, block2);
   },
 
   update: function() { // update methid
@@ -101,6 +105,37 @@ MyGame.GameState = {
     const blockMovement = this.game.add.tween(block);
     blockMovement.to({y: tarY}, this.ANIMATION_TIME);
     blockMovement.start();
+  },
+
+  swapBlocks: function(block1, block2) {
+    let block1Movement = this.game.add.tween(block1);
+    block1Movement.to({x: block2.x, y: block2.y}, this.ANIMATION_TIME);
+
+    block1Movement.onComplete.add(() => { // after meovement is complete
+      this.board.swapBlocks(block1, block2); // swap blocks on the model
+
+
+      if (!this.isReversingSwap) { // not currently reversing swap
+        let chains = this.board.findAllChains();
+
+        if (chains.length > 0) { // if there is a chain then clear and update
+          this.board.clearAllChains();
+          this.board.updateGrid();
+        } else { // swap them back
+          this.isReversingSwap = true;
+          this.swapBlocks(block1, block2);
+        }
+      } else {
+        this.isReversingSwap = false;
+      }
+
+    }, this);
+    block1Movement.start();
+    // move block 2
+    let block2Movement = this.game.add.tween(block2);
+    block2Movement.to({x: block1.x, y: block1.y}, this.ANIMATION_TIME);
+    block2Movement.start();
+
   }
 
 };

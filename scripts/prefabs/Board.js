@@ -38,6 +38,11 @@ class Board {
         this.grid[i][j] = variation;
       }
     }
+    // this there are any chains, repopulate TODO: refatctor to use MYGAME if doesnt work
+    let chains = this.findAllChains();
+    if (chains.length > 0) {
+      this.populateGrid;
+    }
   }
 
   populateReserveGrid() {
