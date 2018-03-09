@@ -1,6 +1,6 @@
 const chai = require('chai');
 const expect = chai.expect;
-let Board = require('../scripts/prefabs/Board.js').Board;
+const Board = require('../scripts/prefabs/Board.js').Board;
 
 
 describe('Board Object', () => {
