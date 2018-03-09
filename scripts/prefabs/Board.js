@@ -126,6 +126,19 @@ class Board {
 
     return isChained;
   }
+
+  findAllChains() {
+    let chains = [];
+
+    for (let i = 0; i < this.rows; i++) {
+      for (let j = 0; j < this.cols; j++) {
+        if (this.isChained({row: i, col: j})) {
+          chains.push({row: i, col: j});
+        }
+      }
+    }
+    return chains;
+  }
 }
 
 // NOTE: 'module.exports' is used for mocha testing. Internet browser will throw 'Uncaught ReferenceError'.

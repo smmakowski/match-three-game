@@ -116,19 +116,30 @@ describe('Board Object', () => {
     });
   });
 
-  describe('.isChained()', () => {
-    it('should return true if blocks are chained (3 in row/col) or false if not', () => {
-      const board = new Board(null, 3, 3, 3);
-      board.grid = [
-        [1, 1, 2],
-        [2, 2, 2],
-        [3, 1, 2]
-      ];
+  describe('.isChained() and findAllChains', () => {
+    const board = new Board(null, 5, 5, 3);
+    board.grid = [
+      [1, 1, 2, 1, 3],
+      [2, 2, 2, 1, 3],
+      [3, 1, 2, 2, 3],
+      [1, 2, 3, 1, 2],
+      [3, 3, 3, 2, 1]
+    ];
+    it('isChained() should return true if blocks are chained (3 in row/col) or false if not', () => {
 
       expect(board.isChained({row: 2, col: 2})).to.equal(true);
       expect(board.isChained({row: 2, col: 0})).to.equal(false);
       expect(board.isChained({row: 0, col: 1})).to.equal(false);
       expect(board.isChained({row: 1, col: 0})).to.equal(true);
-    })
+    });
+
+    it('findAllChains() should return an array with all positions where there is a chain', () => {
+      const chains = board.findAllChains();
+      expect(chains.length).to.equal(8);
+
+      expect(chains).to.deep.equal([{row: 0, col: 2}, { row: 0, col: 4 },
+        { row: 1, col: 0 }, { row: 1, col: 2 }, { row: 2, col: 2 }, { row: 2, col: 4 },
+        { row: 4, col: 0 }, { row: 4, col: 2 }]);
+    });
   });
 });
