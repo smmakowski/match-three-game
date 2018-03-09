@@ -155,7 +155,7 @@ class Board {
     let allChains = this.findAllChains();
     allChains.forEach((block) => {
       this.grid[block.row][block.col] = 0;
-      
+
       if (this.state) { // added to work with mocha testing
         this.state.getBlockFromColRow(block).kill(); // kills block on grid
       }
@@ -166,11 +166,15 @@ class Board {
   dropBlocks(srcRow, tarRow, col) { // drops block in main grid from one popsiton to another
     this.grid[tarRow][col] = this.grid[srcRow][col];
     this.grid[srcRow][col] = 0;
+
+    MyGame.GameState.dropBlock(srcRow, tarRow, col);
   }
 
   dropReserveBlocks(srcRow, tarRow, col) { // drops block in reserve frid to main grid
     this.grid[tarRow][col]= this.reserveGrid[srcRow][col];
     this.reserveGrid[srcRow][col] = 0;
+
+    MyGame.GameState.dropReserveBlock(srcRow, tarRow, col);
   }
 
   updateGrid() {

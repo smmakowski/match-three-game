@@ -64,7 +64,7 @@ MyGame.GameState = {
       this.game.world.bringToTop(this.blocks);
   },
 
-  getBlockFromColRow(pos) {
+  getBlockFromColRow: function(pos) {
     let foundBlock;
 
     this.blocks.forEachAlive((block) => {
@@ -74,5 +74,33 @@ MyGame.GameState = {
     });
 
     return foundBlock;
+  },
+
+  dropBlock: function(srcRow, tarRow, col) {
+    const block = this.getBlockFromColRow({row: srcRow, col: col});
+    const tarY = 150 + tarRow * (this.BLOCK_SIZE + 6); // set coordinates for col height target
+
+    block.row = tarRow; // set new row for grid
+
+    const blockMovement = this.game.add.tween(block); // add tween for block
+    blockMovement.to({y: tarY}, this.ANIMATION_TIME); // set destination for tewen
+    blockMovement.start(); // start animations
+  },
+
+  dropReserveBlock: function(srcRow, tarRow, col) {
+    const x = 36 + col * (this.BLOCK_SIZE + 6); // set start point for x
+    const y = -(this.BLOCK_SIZE + 6) * this.board.RESERVE_ROWS + srcRow * (this.BLOCK_SIZE * 6); // and of u
+
+
+    const block = this.createBlock(x, y, {asset: 'block' + this.board.grid[tarRow][col], row: tarRow, col: col});
+    // tarRow is used since the data for the board will have already been updated
+    const tarY = 150 + tarRow * (this.BLOCK_SIZE + 6); // set coordinates for col height target
+
+    block.row = tarRow; // set new row for grid
+
+    const blockMovement = this.game.add.tween(block);
+    blockMovement.to({y: tarY}, this.ANIMATION_TIME);
+    blockMovement.start();
   }
+
 };
