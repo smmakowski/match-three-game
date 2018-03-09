@@ -18,7 +18,7 @@ class Board {
     this.reserveGrid = []; // reserve grid goes on tip for wqhen new blocks are needed
     // blocks that only come when certain blocks are destroyed
 
-    this.RESERVE_ROWS = this.rows >= 4 ? this.rows - 2 : 2; // update to be 2 less than this.rows to accomdate any number or rows
+    this.RESERVE_ROWS = this.rows; // update to be the same number as .rows in case entire column is empty during update()
 
     for (let i = 0; i < this.RESERVE_ROWS; i++) {
       this.reserveGrid.push([]);
@@ -147,12 +147,48 @@ class Board {
     }, this);
   }
 
-  dropBlocks() {
-
+  dropBlocks(srcRow, tarRow, col) { // drops block in main grid from one popsiton to another
+    this.grid[tarRow][col] = this.grid[srcRow][col];
+    this.grid[srcRow][col] = 0;
   }
 
-  dropReserveBlocks() {
+  dropReserveBlocks(srcRow, tarRow, col) { // drops block in reserve frid to main grid
+    this.grid[tarRow][col]= this.reserveGrid[srcRow][col];
+    this.reserveGrid[srcRow][col] = 0;
+  }
 
+  updateGrid() {
+    // start at bottom and work to top
+    for (let i = this.rows - 1; i >=0; i--) {
+      // iterate through row
+      for (let j = 0; j < this.cols; j++) {
+        let block = this.grid[i][j];
+
+        if (block === 0) { // if block is 0
+          let foundBlock = false; // start looking for filled block
+
+          for (let k = i - 1; k >= 0; k--) { // go up colum
+            if (this.grid[k][j] > 0) { // if space is not 0
+              this.dropBlocks(k , i, j); // drop block into current position
+              foundBlock = true; // set found to ture
+              break; // exit loop
+            }
+          }
+
+          if (!foundBlock) { // if still havent found block to drop
+            for (let l = this.RESERVE_ROWS - 1; l >= 0; l--) { // go up colum
+              if (this.reserveGrid[l][j] > 0) { // if space is not 0
+                this.dropReserveBlocks(l, i, j); // drop block into current position
+                foundBlock = true; // set found to ture
+                break; // exit loop
+              }
+            }
+          }
+        }
+      }
+
+    }
+    this.populateReserveGrid();
   }
 }
 

@@ -28,9 +28,9 @@ describe('Board Object', () => {
       expect(rowsArraysSameLength).to.equal(true);
 
     });
-    it('.RESERVE_ROWS should have two less rows if number of rows >= 4 or 2 rows if less than 4', () => {
-      expect(tinyBoard.RESERVE_ROWS).to.equal(2);
-      expect(regularBoard.RESERVE_ROWS).to.equal(5);
+    it('.RESERVE_ROWS should have same number if number of rows >= 4 or 2 rows if less than 4', () => {
+      expect(tinyBoard.RESERVE_ROWS).to.equal(tinyBoard.rows);
+      expect(regularBoard.RESERVE_ROWS).to.equal(regularBoard.rows);
     });
 
     it('.reserveGrid should be a 2-dimensional array created from .RESERVE_ROWS', () => {
@@ -148,7 +148,6 @@ describe('Board Object', () => {
 
     it('.clearAllChains() should turn all postions where chains are found to 0', () => {
       board.clearAllChains();
-      board.boardToString();
       let allChainsCleared = true;
       for (let i = 0; i < chains.length; i++) {
         let row = chains[i].row;
@@ -160,6 +159,34 @@ describe('Board Object', () => {
       }
 
       expect(allChainsCleared).to.equal(true);
+    });
+
+    it('updateGrid() should fill in empty spaces with values from block that are higher in column or blocks in reserve', () => {
+      board.populateReserveGrid();
+      board.boardToString();
+      board.updateGrid();
+      board.boardToString();
+
+      // check that bottom most 0s are filled with next available block
+      expect(board.grid[4][0]).to.equal(1);
+      expect(board.grid[4][1]).to.equal(3);
+      expect(board.grid[4][2]).to.equal(3);
+      expect(board.grid[4][3]).to.equal(2);
+      expect(board.grid[2][4]).to.equal(3);
+
+      // check all blocks are filled
+      let allFilled = true;
+
+      board.grid.forEach((row) => {
+        for (let i = 0; i < row.length; i++) {
+          if (row[i] === 0) {
+            allFilled = false;
+          }
+        }
+      });
+
+      // expect(allFilled).to.equal(true);
+
     });
   });
 
