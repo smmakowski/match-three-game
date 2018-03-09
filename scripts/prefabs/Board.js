@@ -139,7 +139,23 @@ class Board {
     }
     return chains;
   }
+
+  clearAllChains() {
+    let allChains = this.findAllChains();
+    allChains.forEach((block) => {
+      this.grid[block.row][block.col] = 0;
+    }, this);
+  }
+
+  dropBlocks() {
+
+  }
+
+  dropReserveBlocks() {
+
+  }
 }
+
 
 // NOTE: 'module.exports' is used for mocha testing. Internet browser will throw 'Uncaught ReferenceError'.
 // Please disregard this error, as it will not effect the actual game.

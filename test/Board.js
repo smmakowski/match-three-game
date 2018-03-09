@@ -116,7 +116,7 @@ describe('Board Object', () => {
     });
   });
 
-  describe('.isChained() and findAllChains', () => {
+  describe('.isChained(), findAllChains clearAllChains()', () => {
     const board = new Board(null, 5, 5, 3);
     board.grid = [
       [1, 1, 2, 1, 3],
@@ -125,6 +125,8 @@ describe('Board Object', () => {
       [1, 2, 3, 1, 2],
       [3, 3, 3, 2, 1]
     ];
+
+
     it('isChained() should return true if blocks are chained (3 in row/col) or false if not', () => {
 
       expect(board.isChained({row: 2, col: 2})).to.equal(true);
@@ -133,13 +135,32 @@ describe('Board Object', () => {
       expect(board.isChained({row: 1, col: 0})).to.equal(true);
     });
 
-    it('findAllChains() should return an array with all positions where there is a chain', () => {
-      const chains = board.findAllChains();
-      expect(chains.length).to.equal(8);
 
+    const chains = board.findAllChains();
+    it('findAllChains() should return an array with all positions where there is a chain', () => {
+      // find chains for
+
+      expect(chains.length).to.equal(8);
       expect(chains).to.deep.equal([{row: 0, col: 2}, { row: 0, col: 4 },
         { row: 1, col: 0 }, { row: 1, col: 2 }, { row: 2, col: 2 }, { row: 2, col: 4 },
         { row: 4, col: 0 }, { row: 4, col: 2 }]);
     });
+
+    it('.clearAllChains() should turn all postions where chains are found to 0', () => {
+      board.clearAllChains();
+      board.boardToString();
+      let allChainsCleared = true;
+      for (let i = 0; i < chains.length; i++) {
+        let row = chains[i].row;
+        let col = chains[i].col;
+
+        if (board.grid[row][col] !== 0) {
+          allChainsCleared = false;
+        }
+      }
+
+      expect(allChainsCleared).to.equal(true);
+    });
   });
+
 });
