@@ -110,19 +110,30 @@ class Board {
       isChained = true;
     }
     // test up
-    if (this.grid[row - 1] && this.grid[row - 2]) {
+    if (this.grid[row - 2]) {
       if (blockVar === this.grid[row - 1][col] && blockVar === this.grid[row - 2][col]) {
         isChained = true;
       }
     }
 
     // test down
-    if (this.grid[row + 1] && this.grid[row + 2]) {
+    if (this.grid[row + 2]) {
       if (blockVar === this.grid[row + 1][col] && blockVar === this.grid[row + 2][col]) {
         isChained = true;
       }
     }
 
+    // center horizontal
+    if (this.grid[row][col - 1] === blockVar && this.grid[row][col + 1] === blockVar) {
+      isChained = true;
+    }
+
+    // center vertical
+    if (this.grid[row + 1] && this.grid[row - 1]) {
+      if (blockVar === this.grid[row + 1][col] && blockVar === this.grid[row - 1][col]) {
+        isChained = true;
+      }
+    }
 
     return isChained;
   }
@@ -144,6 +155,11 @@ class Board {
     let allChains = this.findAllChains();
     allChains.forEach((block) => {
       this.grid[block.row][block.col] = 0;
+      
+      if (this.state) { // added to work with mocha testing
+        this.state.getBlockFromColRow(block).kill(); // kills block on grid
+      }
+      // this.state.getBlockFromColRow(block).kill(); // kills block on grid
     }, this);
   }
 

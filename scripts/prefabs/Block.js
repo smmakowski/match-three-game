@@ -1,4 +1,4 @@
-// MyGame = MyGame || {};
+MyGame = MyGame || {};
 
 class Block extends Phaser.Sprite {
   constructor(state, x, y, data) {
@@ -14,5 +14,16 @@ class Block extends Phaser.Sprite {
     this.loadTexture(data.asset);
     this.row = data.row;
     this.col = data.col;
+  }
+
+  kill() {
+    this.loadTexture('deadBlock');
+    this.col = null;
+    this.row = null;
+
+    // calls Phaser.Sprite.prototype.kill() after animation is complete
+    this.game.time.events.add(MyGame.GameState.ANIMATION_TIME / 2, () => {
+      Phaser.Sprite.prototype.kill.call(this);
+    }, this);
   }
 }

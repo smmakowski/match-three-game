@@ -128,22 +128,19 @@ describe('Board Object', () => {
 
 
     it('isChained() should return true if blocks are chained (3 in row/col) or false if not', () => {
-
       expect(board.isChained({row: 2, col: 2})).to.equal(true);
       expect(board.isChained({row: 2, col: 0})).to.equal(false);
       expect(board.isChained({row: 0, col: 1})).to.equal(false);
       expect(board.isChained({row: 1, col: 0})).to.equal(true);
     });
 
-
     const chains = board.findAllChains();
-    it('findAllChains() should return an array with all positions where there is a chain', () => {
-      // find chains for
 
-      expect(chains.length).to.equal(8);
-      expect(chains).to.deep.equal([{row: 0, col: 2}, { row: 0, col: 4 },
-        { row: 1, col: 0 }, { row: 1, col: 2 }, { row: 2, col: 2 }, { row: 2, col: 4 },
-        { row: 4, col: 0 }, { row: 4, col: 2 }]);
+    it('findAllChains() should return an array with all positions where there is a chain', () => {
+      expect(chains.length).to.equal(11);
+      expect(chains).to.deep.equal([ { row: 0, col: 2 }, { row: 0, col: 4 }, { row: 1, col: 0 },
+        { row: 1, col: 1 }, { row: 1, col: 2 }, { row: 1, col: 4 }, { row: 2, col: 2 },
+        { row: 2, col: 4 }, { row: 4, col: 0 }, { row: 4, col: 1 }, { row: 4, col: 2 } ]);
     });
 
     it('.clearAllChains() should turn all postions where chains are found to 0', () => {
@@ -163,16 +160,14 @@ describe('Board Object', () => {
 
     it('updateGrid() should fill in empty spaces with values from block that are higher in column or blocks in reserve', () => {
       board.populateReserveGrid();
-      board.boardToString();
       board.updateGrid();
-      board.boardToString();
 
       // check that bottom most 0s are filled with next available block
       expect(board.grid[4][0]).to.equal(1);
-      expect(board.grid[4][1]).to.equal(3);
+      expect(board.grid[4][1]).to.equal(2);
       expect(board.grid[4][2]).to.equal(3);
       expect(board.grid[4][3]).to.equal(2);
-      expect(board.grid[2][4]).to.equal(3);
+      expect(board.grid[2][4]).to.equal(1);
 
       // check all blocks are filled
       let allFilled = true;

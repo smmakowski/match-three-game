@@ -62,5 +62,17 @@ MyGame.GameState = {
       }
     }
       this.game.world.bringToTop(this.blocks);
+  },
+
+  getBlockFromColRow(pos) {
+    let foundBlock;
+
+    this.blocks.forEachAlive((block) => {
+      if (block.row === pos.row && block.col === pos.col) {
+        foundBlock = block;
+      }
+    });
+
+    return foundBlock;
   }
 };
