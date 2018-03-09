@@ -21,10 +21,6 @@ MyGame.GameState = {
     this.board.populateReserveGrid();
     console.log('Now in GameState!');
     this.renderBoard();
-
-    let block1 = this.blocks.children[10];
-    let block2 = this.blocks.children[11];
-    this.swapBlocks(block1, block2);
   },
 
   update: function() { // update methid
@@ -108,6 +104,9 @@ MyGame.GameState = {
   },
 
   swapBlocks: function(block1, block2) {
+    // set scale back to 1 for swap
+    block1.scale.setTo(1);
+    block2.scale.setTo(1);
     let block1Movement = this.game.add.tween(block1);
     block1Movement.to({x: block2.x, y: block2.y}, this.ANIMATION_TIME);
 
@@ -127,6 +126,7 @@ MyGame.GameState = {
         }
       } else {
         this.isReversingSwap = false;
+        this.clearSelection(); // clear selection
       }
 
     }, this);
@@ -136,6 +136,36 @@ MyGame.GameState = {
     block2Movement.to({x: block1.x, y: block1.y}, this.ANIMATION_TIME);
     block2Movement.start();
 
-  }
+  },
 
+  pickBlock: function(block) {
+    //only swap if allows
+    if (this.isBoardBlocked) {
+      return;
+    }
+
+    this.boardBoardBlocked = true;
+
+    if (!this.selectedBlock) {
+      block.scale.setTo(1.5);
+      this.selectedBlock = block;
+    } else {
+      // only adjacted blocks can swapBlocks
+      this.targetBlock = block; // set target block
+      // if target is adjacent, swap
+      console.log(MyGame.GameState.board.isAdjacent);
+      if (this.board.isAdjacent(this.selectedBlock, this.targetBlock)) {
+        this.swapBlocks(this.selectedBlock, this.targetBlock);
+      } else {
+        this.clearSelection();
+      }
+    }
+  },
+
+  clearSelection: function() { // clears selection
+    this.isBoardBlocked = false;
+    this.selectedBlock = null;
+    this.blocks.setAll('scale.x', 1);
+    this.blocks.setAll('scale.y', 1);
+  }
 };

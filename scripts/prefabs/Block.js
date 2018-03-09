@@ -7,6 +7,9 @@ class Block extends Phaser.Sprite {
     this.col = data.col;
 
     this.anchor.setTo(0.5);
+    //listen for input
+    this.inputEnabled = true; // allow input
+    this.events.onInputDown.add(state.pickBlock, state); // add callbac kfor iput
   }
 
   reset(x, y, data) {
