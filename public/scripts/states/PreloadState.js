@@ -1,10 +1,11 @@
 MyGame = MyGame || {};
 
-MyGame.PreloadState ={
+MyGame.PreloadState = {
   preload: function() {
     // add sprites for logos and loading bar
     this.loadingBar = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'loadingBar');
     this.loadingBar.anchor.setTo(.5); // center anchor to midddle of bar
+    this.loadingBar.scale.setTo(100, 1);
     this.load.setPreloadSprite(this.loadingBar); // crops arg image depening on load percentage
     // preload assets here
     this.load.image('background', '../../assets/images/backyard2.png');
@@ -19,7 +20,6 @@ MyGame.PreloadState ={
     this.load.image('deadBlock', '../../assets/images/bean_dead.png');
   },
   create: function() {
-    console.log('Now in PreloadState');
     this.state.start('HomeState'); // start gameState
   },
 }
