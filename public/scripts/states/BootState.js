@@ -11,8 +11,9 @@ MyGame.BootState = {
   },
   preload: function() {
     //preload assets for PreloadState
+    this.load.image('logo', '../../assets/images/logo.png');
     this.load.image('loadingBar', '../../assets/images/preloader-bar.png');
-
+    this.load.image('background', '../../assets/images/backyard2.png');
   },
   create: function() {
     //set stage background as white, start PreloadState
