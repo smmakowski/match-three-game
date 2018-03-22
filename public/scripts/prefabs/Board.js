@@ -90,6 +90,13 @@ class Board {
 
     this.grid[source.row][source.col] = this.grid[target.row][target.col]; // swap A
     this.grid[target.row][target.col] = temp; // swap B
+
+    let tempPos = {row: source.row, col: source.col};
+    source.row = target.row;
+    source.col = target.col;
+
+    target.row = tempPos.row;
+    target.col = tempPos.col;
   }
 
   isAdjacent(source, target) {
