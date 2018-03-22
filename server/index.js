@@ -11,7 +11,7 @@ app.use((req, res, next) => {
 });
 
 // use folder f
-app.use(express.static(`${__dirname}/../`));
+app.use(express.static(`${__dirname}/../public/`));
 
 // start server
 app.listen(PORT, () => {
