@@ -118,8 +118,9 @@ MyGame.GameState = {
         let chains = this.board.findAllChains();
 
         if (chains.length > 0) { // if there is a chain then clear and update
-          this.board.clearAllChains();
-          this.board.updateGrid();
+          this.updateBoard();
+          // this.board.clearAllChains();
+          // this.board.updateGrid();
         } else { // swap them back
           this.isReversingSwap = true;
           this.swapBlocks(block1, block2);
@@ -167,5 +168,24 @@ MyGame.GameState = {
     this.selectedBlock = null;
     this.blocks.setAll('scale.x', 1);
     this.blocks.setAll('scale.y', 1);
+  },
+
+  updateBoard: function() {
+    // drop and update model
+    this.board.clearAllChains();
+    this.board.updateGrid();
+
+    //after dropping has ended
+    this.game.time.events.add(this.ANIMATION_TIME, function() {
+      let chains = this.board.findAllChains(); // see if new chains
+
+      if (chains.length > 0) { // if there are chains recursively call
+        //(will continue until no more chains left)
+        this.updateBoard();
+      } else { // once no more chains
+        this.clearSelection();
+      }
+    }, this);
   }
+
 };

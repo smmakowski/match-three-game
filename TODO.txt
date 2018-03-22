@@ -1,0 +1,4 @@
+< Ideas for Expansion >
+- time limit
+- high score
+- move counter (move limits)
